@@ -1,6 +1,6 @@
 # Moje Dotfiles (DWM Setup)
 
-Minimalistyczne i wydajne środowisko oknowe oparte na **dwm** oraz **dwmblocks-async**. Przetestowane na dystrybucji Arch Linux. Zawiera gotowe skróty klawiszowe pod klawisz Windows (Super), przezroczystość paska, przerwy między oknami oraz wyłączoną akcelerację myszy.
+Minimalistyczne i wydajne środowisko oknowe oparte na **dwm** oraz **dwmblocks-async**. Przetestowane na dystrybucji Arch Linux. Zawiera gotowe skróty klawiszowe pod klawisz ALT , przezroczystość paska, przerwy między oknami oraz wyłączoną akcelerację myszy.
 
 ## Wymagane aplikacje (Zainstaluj przed uruchomieniem)
 
