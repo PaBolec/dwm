@@ -1,43 +1,50 @@
 # Moje Dotfiles (DWM Setup)
 
-Minimalistyczne i wydajne środowisko oknowe oparte na **dwm** oraz **dwmblocks-async**. Przetestowane na dystrybucji Arch Linux. Zawiera gotowe skróty klawiszowe pod klawisz ALT , przezroczystość paska, przerwy między oknami oraz wyłączoną akcelerację myszy.
+Minimalistyczne i wydajne środowisko oknowe oparte na **dwm** oraz **dwmblocks-async**. Przetestowane na Arch Linux / CachyOS. Zawiera gotowe skróty klawiszowe pod klawisz ALT, przezroczystość paska, przerwy między oknami oraz wyłączoną akcelerację myszy.
 
-## Wymagane aplikacje (Zainstaluj przed uruchomieniem)
+> dwm działa tylko na X11, więc instalator instaluje Xorg. Twój Wayland (np. Plasma) zostaje nietknięty, dwm startuje jako osobna sesja.
 
-Przed odpaleniem instalatora upewnij się, że masz w systemie zainstalowane wszystkie niezbędne pakiety, narzędzia oraz czcionki potrzebne do poprawnego wyświetlania ikon:
-
-```bash
-sudo pacman -S git base-devel xorg-server xorg-xinit xorg-xset rootlessxorg xorg-xinput libx11 libxft libxinerama freetype2 ttf-font-awesome ttf-jetbrains-mono-nerd firefox discord spotify-launcher kitty fastfetch
-```
-
-*Dla przezroczystości i animacji okien zainstaluj swój kompozytor (np. `picom-pijulius` z AUR).*
-
-## Instrukcja Instalacji (Na nowym PC)
-
-Instalacja całego środowiska sprowadza się do pobrania tego repozytorium i uruchomienia gotowego skryptu, który automatycznie rozrzuci konfiguracje i skompiluje programy suckless:
+## Instalacja (na nowym PC)
 
 ```bash
-# 1. Pobierz repozytorium dotfiles
-git clone https://github.com ~/dots
-
-# 2. Wejdź do folderu
+git clone https://github.com/PaBolec/dwm.git ~/dots
 cd ~/dots
-
-# 3. Uruchom automatyczny instalator
+chmod +x install.sh
 ./install.sh
 ```
 
-## Po instalacji (~/.xinitrc)
+Nie odpalaj jako root, skrypt sam użyje `sudo`. Wymaga Arch Linux lub pochodnej (pacman).
 
-Aby środowisko uruchamiało się poprawnie komendą `startx` razem z kompozytorem i paskiem statusu, Twój plik `~/.xinitrc` powinien kończyć się następującymi liniami:
+## Co robi instalator
+
+1. Instaluje pakiety: `git base-devel xorg-server xorg-xinit xorg-xset xorg-xinput libx11 libxft libxinerama libxcb xcb-util freetype2 ttf-font-awesome ttf-jetbrains-mono-nerd firefox discord spotify-launcher kitty fastfetch`
+2. Instaluje `yay` (z repo na CachyOS, z AUR na zwykłym Archu)
+3. Instaluje `picom-pijulius-git` przez yay (fallback na zwykły `picom`)
+4. Kopiuje configi `picom`, `kitty`, `fastfetch` do `~/.config`
+5. Wrzuca `50-mouse-acceleration.conf` do `/etc/X11/xorg.conf.d/` (mysz bez akceleracji)
+6. Kompiluje i instaluje `dwm` oraz `dwmblocks`
+7. Tworzy `/usr/local/bin/dwm-session` (picom + dwmblocks + dwm) i wpis sesji `dwm`
+8. Tworzy `~/.xinitrc` (stary zapisuje jako `~/.xinitrc.bak`)
+9. Instaluje i włącza display manager **Ly** (wyłącza SDDM/GDM/LightDM jeśli były)
+
+## Uruchamianie
+
+Po restarcie Ly pojawi się na tty2. Strzałkami lewo/prawo wybierasz sesję (`dwm`, Plasma itd.).
+
+Bez display managera możesz też odpalić dwm z TTY komendą:
 
 ```bash
-# Uruchomienie kompozytora okien w tle
+startx
+```
+
+Gdyby Ly nie wstał, `Ctrl+Alt+F3` daje zwykły TTY.
+
+## Ręczne ustawienia
+
+Jeśli wolisz własny `~/.xinitrc`, powinien kończyć się tak:
+
+```bash
 picom --backend glx &
-
-# Uruchomienie paska statusu w tle
 dwmblocks &
-
-# Uruchomienie głównego menedżera okien (musi być na samym końcu!)
-exec /usr/local/bin/dwm
+exec /usr/local/bin/dwm   # musi być na samym końcu
 ```
