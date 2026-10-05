@@ -8,7 +8,7 @@ Minimalistyczne i wydajne środowisko oknowe oparte na **dwm** oraz **dwmblocks-
 
 ```bash
 git clone https://github.com/PaBolec/dwm.git ~/dots
-cd ~/dots
+cd ~/dwm
 chmod +x install.sh
 ./install.sh
 ```
